@@ -14,10 +14,13 @@ class Signal:
 		self.frac = 0
 		self.max = 0
 		self.min = 0
-		#Multiplexed: if M (it's the multiplexor), m1 is first mux, m2 second ...etc
+		#Multiplexed: if M (it's the multiplexor signal), m1 signal is in first mux, m2 means signal is in second mux ...etc
 		self.Muxed = "0"
 		self.Start_Bit = 0
 		self.unit = ""
+		self.isValTable = 0
+		self.valTable = {}
+		self.c_type = "" #type in C code ex. uint8, sint8
 
 class Message:
 	def __init__(self,MessageName,MessageID):
@@ -25,7 +28,7 @@ class Message:
 		self.ID = MessageID
 		self.name = MessageName
 		self.Tx_Node = ""
-		self.Type = ""
+		self.Type = "" #Tx or Rx
 	def AddSig(self,SignalName):
 		if SignalName in self.signals:
 			#signal is already added

@@ -1,0 +1,228 @@
+
+
+Message name:  Misc_Report
+
++-------------+----------+-------+--------------------------+
+| Signal Name | StartBit |  Type |        ValueTable        |
++-------------+----------+-------+--------------------------+
+|    DOORL    |    26    | uint8 | 0->"Closed"  1->"Open"   |
+|    TRUNK    |    29    | uint8 | 0->"Closed"  1->"Open"   |
+|    DOORD    |    24    | uint8 | 0->"Closed"  1->"Open"   |
+|    DOORP    |    25    | uint8 | 0->"Closed"  1->"Open"   |
+|    DOORR    |    27    | uint8 | 0->"Closed"  1->"Open"   |
++-------------+----------+-------+--------------------------+
+
+
+Message name:  SDI_Dist_FIR_FOR_FSR
+
++----------------------+----------+--------+------------+
+|     Signal Name      | StartBit |  Type  | ValueTable |
++----------------------+----------+--------+------------+
+|     SDI_Dir_FIR      |    0     | uint16 |    None    |
+|     SDI_Dir_FSR      |    32    | uint16 |    None    |
+| Sensor_FSR_Blockage  |    46    | uint8  |    None    |
+| Sensor_FIR_Blockage  |    14    | uint8  |    None    |
+| SW_Cal_Version_Minor |    26    | uint8  |    None    |
+|     SDI_Dir_FOR      |    16    | uint16 |    None    |
+| SW_Cal_Version_Major |    10    | uint8  |    None    |
+| Sensor_FOR_Blockage  |    30    | uint8  |    None    |
++----------------------+----------+--------+------------+
+
+
+Message name:  SectorInfo_FRNT_REAR
+
++-----------------------------+----------+-------+------------+
+|         Signal Name         | StartBit |  Type | ValueTable |
++-----------------------------+----------+-------+------------+
+|     RearSector_R2_Zones     |    24    | uint8 |    None    |
+|     RearSector_R1_Zones     |    20    | uint8 |    None    |
+|     RearSector_R0_Zones     |    16    | uint8 |    None    |
+|     FrontSector_F1_Zones    |    4     | uint8 |    None    |
+|  SectorInfo_FrtRear_Counter |    48    | uint8 |    None    |
+|     FrontSector_F0_Zones    |    0     | uint8 |    None    |
+|  FrontSector_AudibleWarning |    34    | uint8 |    None    |
+|     FrontSector_F3_Zones    |    12    | uint8 |    None    |
+|     RearSector_R3_Zones     |    28    | uint8 |    None    |
+| SectorInfo_FrtRear_Checksum |    56    | uint8 |    None    |
+|     FrontSector_F2_Zones    |    8     | uint8 |    None    |
+|  RearSector_AudibleWarning  |    37    | uint8 |    None    |
++-----------------------------+----------+-------+------------+
+
+
+Message name:  Accel_Report
+
++-------------+----------+--------+------------+
+| Signal Name | StartBit |  Type  | ValueTable |
++-------------+----------+--------+------------+
+|     LAT     |    0     | sint16 |    None    |
+|     VERT    |    32    | sint16 |    None    |
+|     LONG    |    16    | sint16 |    None    |
++-------------+----------+--------+------------+
+
+
+Message name:  SDI_Dist_FSL_FOL_FIL
+
++---------------------+----------+--------+------------+
+|     Signal Name     | StartBit |  Type  | ValueTable |
++---------------------+----------+--------+------------+
+| Sensor_FOL_Blockage |    46    | uint8  |    None    |
+|     SDI_Dir_FOL     |    32    | uint16 |    None    |
+|   SW_Version_Minor  |    26    | uint8  |    None    |
+|     SDI_Dir_FSL     |    16    | uint16 |    None    |
+|   SW_Version_Major  |    10    | uint8  |    None    |
+| Sensor_FIL_Blockage |    62    | uint8  |    None    |
+|  SW_Version_Variant |    42    | uint8  |    None    |
+| Sensor_FSL_Blockage |    30    | uint8  |    None    |
+|     SDI_Dir_FIL     |    48    | uint16 |    None    |
++---------------------+----------+--------+------------+
+
+
+Message name:  MPA_Info2
+
++-------------------+----------+-------+------------+
+|    Signal Name    | StartBit |  Type | ValueTable |
++-------------------+----------+-------+------------+
+| MPA_Switch_button |    0     | uint8 |    None    |
++-------------------+----------+-------+------------+
+
+
+Message name:  SDI_Dist_RSR_ROR_RIR
+
++---------------------+----------+--------+------------+
+|     Signal Name     | StartBit |  Type  | ValueTable |
++---------------------+----------+--------+------------+
+|     SDI_Dir_ROR     |    32    | uint16 |    None    |
+| Sensor_RIR_Blockage |    62    | uint8  |    None    |
+| Sensor_ROR_Blockage |    46    | uint8  |    None    |
+|     SDI_Dir_RIR     |    48    | uint16 |    None    |
+|     SDI_Dir_RSR     |    16    | uint16 |    None    |
+| Sensor_RSR_Blockage |    30    | uint8  |    None    |
++---------------------+----------+--------+------------+
+
+
+Message name:  Gyro_Report
+
++-------------+----------+-------+------------+
+| Signal Name | StartBit |  Type | ValueTable |
++-------------+----------+-------+------------+
+|     ROLL    |    0     | sint8 |    None    |
+|   Veh_YAW   |    16    | sint8 |    None    |
++-------------+----------+-------+------------+
+
+
+Message name:  Steering_Report
+
++-------------+----------+--------+------------+
+| Signal Name | StartBit |  Type  | ValueTable |
++-------------+----------+--------+------------+
+|    ANGLE    |    0     | sint16 |    None    |
+|    SPEED    |    32    | uint16 |    None    |
++-------------+----------+--------+------------+
+
+
+Message name:  MPA_Info
+
++----------------------+----------+--------+-------------------------------------------------------------+
+|     Signal Name      | StartBit |  Type  |                          ValueTable                         |
++----------------------+----------+--------+-------------------------------------------------------------+
+|        FL_Dir        |    18    | uint8  | 0->"Standstill"  1->"Forward"  2->"Reverse"  3->"Faulted"   |
+|        RR_Dir        |    22    | uint8  | 0->"Standstill"  1->"Forward"  2->"Reverse"  3->"Faulted"   |
+| MPA_Trailer_attached |    0     | uint8  |      0->"Trailer_not_attached"  1->"Trailer_attached"       |
+|        RL_Dir        |    16    | uint8  | 0->"Standstill"  1->"Forward"  2->"Reverse"  3->"Faulted"   |
+|        FR_Dir        |    20    | uint8  | 0->"Standstill"  1->"Forward"  2->"Reverse"  3->"Faulted"   |
+|     MPA_Ignition     |    8     | uint8  |         0->"Off"  1->"Accessory"  2->"IG_Running"           |
+|   MPA_Temperature    |    24    | sint16 |                             None                            |
++----------------------+----------+--------+-------------------------------------------------------------+
+
+
+Message name:  MPA_Feature_Status_Msg
+
++--------------+----------+-------+------------+
+| Signal Name  | StartBit |  Type | ValueTable |
++--------------+----------+-------+------------+
+| MPA_subState |    8     | uint8 |    None    |
+|  MPA_Status  |    0     | uint8 |    None    |
++--------------+----------+-------+------------+
+
+
+Message name:  SectorInfo_SIDE
+
++--------------------------+----------+-------+------------+
+|       Signal Name        | StartBit |  Type | ValueTable |
++--------------------------+----------+-------+------------+
+|   SideSector_R3_Zones    |    28    | uint8 |    None    |
+| SectorInfo_Side_Counter  |    32    | uint8 |    None    |
+|   SideSector_R0_Zones    |    16    | uint8 |    None    |
+|   SideSector_L0_Zones    |    0     | uint8 |    None    |
+|   SideSector_R1_Zones    |    20    | uint8 |    None    |
+|   SideSector_L1_Zones    |    4     | uint8 |    None    |
+|   SideSector_L2_Zones    |    8     | uint8 |    None    |
+|   SideSector_R2_Zones    |    24    | uint8 |    None    |
+|   SideSector_L3_Zones    |    12    | uint8 |    None    |
+| SectorInfo_Side_Checksum |    40    | uint8 |    None    |
++--------------------------+----------+-------+------------+
+
+
+Message name:  UDS_parkRequest
+
++---------------------+----------+--------+------------+
+|     Signal Name     | StartBit |  Type  | ValueTable |
++---------------------+----------+--------+------------+
+| UDS_parkRequestData |    56    | uint64 |    None    |
++---------------------+----------+--------+------------+
+
+
+Message name:  Gear_Report
+
++-------------+----------+-------+--------------------------------------------------------------------------+
+| Signal Name | StartBit |  Type |                                ValueTable                                |
++-------------+----------+-------+--------------------------------------------------------------------------+
+|    STATE    |    0     | uint8 | 0->"None"  1->"Park"  2->"Reverse"  3->"Neutral"  4->"Drive"  5->"Low"   |
++-------------+----------+-------+--------------------------------------------------------------------------+
+
+
+Message name:  WheelPosition_Report
+
++------------------+----------+--------+------------+
+|   Signal Name    | StartBit |  Type  | ValueTable |
++------------------+----------+--------+------------+
+| WheelPosition_FL |    0     | sint32 |    None    |
+| WheelPosition_RR |    48    | sint32 |    None    |
+| WheelPosition_RL |    32    | sint32 |    None    |
+| WheelPosition_FR |    16    | sint32 |    None    |
++------------------+----------+--------+------------+
+
+
+Message name:  SDI_Dist_RIL_ROL_RSL
+
++---------------------+----------+--------+------------+
+|     Signal Name     | StartBit |  Type  | ValueTable |
++---------------------+----------+--------+------------+
+| Sensor_RSL_Blockage |    46    | uint8  |    None    |
+|     SDI_Dir_RSL     |    32    | uint16 |    None    |
+|     SDI_Dir_RIL     |    0     | uint16 |    None    |
+| Sensor_RIL_Blockage |    14    | uint8  |    None    |
+|     SDI_Dir_ROL     |    16    | uint16 |    None    |
+| Sensor_ROL_Blockage |    30    | uint8  |    None    |
++---------------------+----------+--------+------------+
+
+
+Message name:  WheelSpeed_Report
+
++---------------+----------+--------+------------+
+|  Signal Name  | StartBit |  Type  | ValueTable |
++---------------+----------+--------+------------+
+| WheelSpeed_RR |    48    | sint16 |    None    |
+| WheelSpeed_FL |    0     | sint16 |    None    |
+| WheelSpeed_FR |    16    | sint16 |    None    |
+| WheelSpeed_RL |    32    | sint16 |    None    |
++---------------+----------+--------+------------+
+
+
+Message name:  PARK_udsResponse
+
++----------------------+----------+--------+------------+
+|     Signal Name      | StartBit |  Type  | ValueTable |
++----------------------+----------+--------+------------+
+| PARK_udsResponseData |    56    | uint64 |    None    |
++----------------------+----------+--------+------------+
