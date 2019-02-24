@@ -39,6 +39,12 @@ class DBCParse:
 							self.Messages[MessageName].Type = "Tx"
 						else:
 							self.Messages[MessageName].Type = "Rx"
+				#look for the cyclic time of the found messages
+				searchCyclicTime = re.search(r'^BA_\s+\"GenMsgCycleTime\"+[^0-9]*(\d+)\s(\d+);$',line)
+				if searchCyclicTime!= None:
+					for message in self.Messages:
+						if self.Messages[message].ID == searchCyclicTime.group(1):
+							self.Messages[message].cyclicTime = int(searchCyclicTime.group(2))
 
 		inputfile.close()
 	def readSignals(self):
@@ -101,16 +107,22 @@ class DBCParse:
 							self.Messages[message].signals[Signal_Name].isValTable = ValueTable.__len__()/2 #mark it as signal with value Table
 							for idx,value in zip(*[iter(ValueTable)]*2):
 								self.Messages[message].signals[Signal_Name].valTable[idx] = value
-								
+			#Read signals comments and add them:
+			if line.startswith("CM_ SG_ ") :
+				search_comm = re.search(r'CM_ SG_ (\d*)\s*(\w*|\d*)\s*"(.*)\"+;+',line)
+				for message in self.Messages: #loop on all Messages
+					for signal in self.Messages[message].signals: #loop for all signals to update the found signal
+						if signal == search_comm.group(2):
+							self.Messages[message].signal(signal).comment = search_comm.group(3)
 							
-				#print(ValueTable)
 		inputfile.close()
 #print function for debugging and insure proper DBC interpretation		
 	def printdbc(self):
 		for message in self.Messages:
-			print("\n\n"+"Message name:  "+message+"\n")
+			print("\n\n"+"Message name:  "+message+ "   CyclicTime = "+str(self.Messages[message].cyclicTime)+
+			"    Message Type  "+str(self.Messages[message].Type+"\n"))
 			#prepare the table for the signals
-			t = PrettyTable(['Signal Name', 'StartBit','Type','ValueTable'])
+			t = PrettyTable(['Signal Name', 'StartBit','Type','ValueTable','Comment'])
 			for signal in self.Messages[message].signals:
 				if self.Messages[message].signals[signal].isValTable:
 					valTable = ""
@@ -120,7 +132,7 @@ class DBCParse:
 					valTable = "None"
 				t.add_row([signal, self.Messages[message].signals[signal].Start_Bit,\
 				self.Messages[message].signals[signal].c_type,\
-				valTable])
+				valTable,self.Messages[message].signals[signal].comment])
 			print t
 #support functions
 	def prepareRead(self):

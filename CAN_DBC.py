@@ -21,6 +21,7 @@ class Signal:
 		self.isValTable = 0
 		self.valTable = {}
 		self.c_type = "" #type in C code ex. uint8, sint8
+		self.comment = ""
 
 class Message:
 	def __init__(self,MessageName,MessageID):
@@ -29,6 +30,7 @@ class Message:
 		self.name = MessageName
 		self.Tx_Node = ""
 		self.Type = "" #Tx or Rx
+		self.cyclicTime = 0
 	def AddSig(self,SignalName):
 		if SignalName in self.signals:
 			#signal is already added
