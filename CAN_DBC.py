@@ -22,6 +22,7 @@ class Signal:
 		self.valTable = {}
 		self.c_type = "" #type in C code ex. uint8, sint8
 		self.comment = ""
+		self.initValue = 0 # raw init value of the signal
 
 class Message:
 	def __init__(self,MessageName,MessageID):

@@ -15,7 +15,7 @@ class DBCParse:
 		#RxMsgs = RxMessages
 		self.readMessages()
 		self.readSignals()
-		self.readSignalsValTable()
+		self.readSignalsAttrib()
 		
 	def readMessages(self):
 		inputfile, lines = self.prepareRead()
@@ -90,8 +90,9 @@ class DBCParse:
 					#print('Signal Found')
 		inputfile.close()
 #This interface reads the value table for signals within messages associated with a certain value table
-	def readSignalsValTable(self):
+	def readSignalsAttrib(self):
 		inputfile , lines = self.prepareRead()
+		#Read signals value table if they exist and add them
 		for line in lines:
 			if line.startswith('VAL_ ') :  # this section will be used if you want to Enum from Value Table
 				lineSearch = re.search(r'VAL_ +(\d*) (\w*) (.*) ;',line)
@@ -112,8 +113,17 @@ class DBCParse:
 				search_comm = re.search(r'CM_ SG_ (\d*)\s*(\w*|\d*)\s*"(.*)\"+;+',line)
 				for message in self.Messages: #loop on all Messages
 					for signal in self.Messages[message].signals: #loop for all signals to update the found signal
-						if signal == search_comm.group(2):
-							self.Messages[message].signal(signal).comment = search_comm.group(3)
+						if search_comm:
+							if signal == search_comm.group(2):
+								self.Messages[message].signal(signal).comment = search_comm.group(3)
+			#search for init values of signals if they exist and add them
+			if line.startswith('BA_'):
+				search_init = re.search(r'BA_ "GenSigStartValue" SG_ (\d*)\s+(\w*|\d*)\s*(\-*\d+)\;*',line)
+				for message in self.Messages: #loop on all Messages
+					for signal in self.Messages[message].signals: #loop for all signals to update the found signal
+						if search_init:
+							if signal == search_init.group(2):
+								self.Messages[message].signal(signal).initValue = int(search_init.group(3))
 							
 		inputfile.close()
 #print function for debugging and insure proper DBC interpretation		
@@ -122,7 +132,7 @@ class DBCParse:
 			print("\n\n"+"Message name:  "+message+ "   CyclicTime = "+str(self.Messages[message].cyclicTime)+
 			"    Message Type  "+str(self.Messages[message].Type+"\n"))
 			#prepare the table for the signals
-			t = PrettyTable(['Signal Name', 'StartBit','Type','ValueTable','Comment'])
+			table = PrettyTable(['Signal Name', 'StartBit','Type','ValueTable','Comment','init Value'])
 			for signal in self.Messages[message].signals:
 				if self.Messages[message].signals[signal].isValTable:
 					valTable = ""
@@ -130,10 +140,11 @@ class DBCParse:
 						valTable += str(value)+"->"+self.Messages[message].signals[signal].valTable[value]+"  "
 				else:
 					valTable = "None"
-				t.add_row([signal, self.Messages[message].signals[signal].Start_Bit,\
+				table.add_row([signal, self.Messages[message].signals[signal].Start_Bit,\
 				self.Messages[message].signals[signal].c_type,\
-				valTable,self.Messages[message].signals[signal].comment])
-			print t
+				valTable,self.Messages[message].signals[signal].comment,
+				str(self.Messages[message].signals[signal].initValue)])
+			print table
 #support functions
 	def prepareRead(self):
 		inputfile  = open(self.dbcFilePath,'r')
@@ -176,20 +187,3 @@ class DBCParse:
 			sys.exit()
 		return sigtype
 
-if __name__== "__main__":
-#Selecting DBC file ------------------------------------------------------------------
-	root = Tk()
-	root.withdraw()
-	# root.fileName = tkFileDialog.askopenfilename(filetypes=[("Dataset files","*.dbc")  ],
-									# title='Choose a Database file (.dbc format)')
-	root.fileName = 'RIV_ADAS_Mule1_v8.dbc'
-	if root.fileName == None:
-		sys.exit()
-#---------------------------------------------------------------------------------------
-	DBC_Name = root.fileName 
-#	Create Header File
-	HeaderFile = open('COMH.h','w')
-#	Create Source File
-	SourceFile = open('COMH.c','w')
-	DBCParsObj = DBCParse(DBC_Name,'PARK')
-	DBCParsObj.printdbc()
