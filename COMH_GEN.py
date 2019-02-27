@@ -13,12 +13,20 @@ class COMH_GEN:
 	def GenCFile(self,filename):
 		#Create Source File
 		SF = open(filename,'w')
+		self.GenCOMHIncludes(SF)
 		self.GenRxProcessMsgs(SF)
 		self.GenTxProcessMsgs(SF)
+		self.GenCOMHcyclics(SF)
+		self.GenCOMcouts(SF)
 		
 	def GenHFile(self):
 		#Create Header File
 		HeaderFile = open('COMH.h','w')
+	def GenCOMHIncludes(self,SF):
+		SF.write('/*Including the libraries for COMH*/\n\n#include "COMH.h"\n#include "Rte_COMH.h"\n#include "dstdbit.h"\n\
+#include "dapm_tsk.h"\n#include "dapm_ula.h"\n#include "didh_typ.h"\n#include "Crc.h"\n#include "com.h"\n\
+#include "Appl_Desc_Blk.h"\n#include "CanSM.h"\n#include "crc.h"\n#include "Com_Cbk.h"\n#include "CanIf_Cfg.h"\n#include "MemMap.h"') 
+					
 	def GenRxProcessMsgs(self,SF):
 		for message in self.Messages:
 			if self.Messages[message].Type == 'Rx':
@@ -91,6 +99,29 @@ class COMH_GEN:
 					if(self.Messages[message].signal(signal).comment != ""):
 						SF.write('\t//'+self.Messages[message].signal(signal).comment+'\n')
 					SF.write('\tRte_Write_P_'+message+'_DE_'+signal+'((DT_'+signal+') '+message+'_MSG.'+signal+');\n')
+				SF.write('}')
+				
+	def GenCOMHcyclics(self,SF):
+		Cyclics = {}
+		for message in self.Messages:
+			cycleTime = self.Messages[message].cyclicTime
+			if(Cyclics.get(cycleTime)):
+				pass
+			else:
+				Cyclics[cycleTime] = ""
+				Cyclics[cycleTime] = '\n\nFUNC(void,RTE_COMH_APPL_CODE) COMH_Cyclic'+str(cycleTime)+'(void)\n{\n\n' 
+			Cyclics[cycleTime] += ('Process_'+message+'_MSG(void);\n\n')
+		for cyclic in Cyclics:
+			Cyclics[cyclic]  += '}'
+			SF.write(Cyclics[cyclic])
+				
+	def GenCOMcouts(self,SF):
+		for message in self.Messages:
+			if self.Messages[message].Type == 'Rx':
+				SF.write('\n\nFUNC(boolean, COM_APPL_CODE) Appl_COMCout_Pdu_'+message+'__RIV_ADAS_Mule(\
+\n\t\tPduIdType ComRxPduId,\
+\n\t\tCONSTP2CONST(PduInfoType, AUTOMATIC, COM_APPL_DATA) PduInfoPtr)\n{\n\n') 
+				SF.write('\ttout_chk_arr['+message.upper()+'].rcvd_flag = FALSE;\n\treturn TRUE;\n')
 				SF.write('}')
 				
 if __name__== "__main__":
