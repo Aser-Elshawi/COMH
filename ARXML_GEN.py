@@ -43,8 +43,8 @@ def AddEnum(signal,DataTypeElementsRoot,TextTableName,MAX,MIN):
 	UpperLimit.attrib = {'INTERVAL-TYPE':'CLOSED'}
 	UpperLimit.text = MAX
 	
-def AddTextTable (name,dictofValues):
-	
+def AddTextTable (DataTypeSemanticsElementsRoot,name,dictofValues):
+	pass
 	
 	
 
@@ -59,7 +59,7 @@ if fileName == None:
 DBC_Name = fileName 
 
 DBCParsObj = DBCParse(DBC_Name,'PARK')
-DBCParsObj.printdbc()
+#DBCParsObj.printdbc()
 #----------------------------   Read DBC File --------------------------------------------------------
 
 root = tree.getroot()
@@ -78,7 +78,18 @@ for AR_Packs in topLevelPacks:
 				#print 'Datatype found' 	
 				#print AR_Packs[1].tag
 				DataType_Elements = AR_Packs[1]
+
+for AR_Packs in topLevelPacks:
+	for AR_Pack in AR_Packs:
+		if 'SHORT-NAME' in AR_Pack.tag:
+			if AR_Pack.text == 'DataType':
+				#print 'Datatype found' 	
+				#print AR_Packs[1].tag
+				DataType_SUB_PACKAGES_root = AR_Packs[2]
 				
+for AR_Package in DataType_SUB_PACKAGES_root:
+	if(AR_Package.find('SHORT-NAME').text == 'DataTypeSemantics'):
+		DataTypeSemanticsElementsRoot = AR_Package.find('ELEMENTS')
 # for Element in DataType_Elements:
 	# print Element.tag
 
