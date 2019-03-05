@@ -24,7 +24,28 @@ def AddStruct(message,DataTypeElementsRoot):
 		typeRef = ET.SubElement(recordElement,'TYPE-TREF')
 		typeRef.attrib = {'DEST':'BOOLEAN-TYPE'}
 		typeRef.text = '/DataType/DT_'+signal
-
+		
+		
+def AddEnum(signal,DataTypeElementsRoot,TextTableName,MAX,MIN):
+	''' Before Calling this interface the Text Table needs to be
+	declared under DataTypeSemantics'''
+	intType = ET.SubElement(DataTypeElementsRoot,'INTEGER-TYPE')
+	shortName = ET.SubElement(intType,'SHORT-NAME')
+	shortName.text = 'DT_'+signal+'Validity'
+	data_def_props = ET.SubElement(intType,'SW-DATA-DEF-PROPS')
+	compu_method_ref = ET.SubElement(data_def_props,'COMPU-METHOD-REF')
+	compu_method_ref.attrib = {'DEST':'COMPU-METHOD'}
+	compu_method_ref.text = '/DataType/DataTypeSemantics/'+TextTableName
+	LowerLimit = ET.SubElement(intType,'LOWER-LIMIT')
+	LowerLimit.attrib = {'INTERVAL-TYPE':'CLOSED'}
+	LowerLimit.text = MIN
+	UpperLimit = ET.SubElement(intType,'UPPER-LIMIT')
+	UpperLimit.attrib = {'INTERVAL-TYPE':'CLOSED'}
+	UpperLimit.text = MAX
+	
+def AddTextTable (name,dictofValues):
+	
+	
 	
 
 	
